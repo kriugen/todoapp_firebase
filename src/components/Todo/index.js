@@ -17,6 +17,7 @@ export default () => {
         const unsubscribeFirestore = firebase
             .firestore()
             .collection("items")
+            .where("uid", "==", firebase.auth().currentUser.uid)
             .onSnapshot(snapshot => {
                 snapshot.docChanges().forEach(({ doc, type }) => {
                     const id = doc.id

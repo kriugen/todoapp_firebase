@@ -57,13 +57,14 @@ export default ({ item, done = () => {} }) => {
         Log.info(input, "Todo " + type)
 
         let collection = firebase.firestore().collection("items")
+        const change = {
+            ...form,
+            uid: firebase.auth().currentUser.uid,
+        }
         if (item) {
-            collection = collection.doc(item.id).set({ ...form })
+            collection = collection.doc(item.id).set(change)
         } else {
-            collection = collection.add({
-                ...form,
-                userId: firebase.auth().currentUser.uid,
-            })
+            collection = collection.add(change)
         }
 
         collection
